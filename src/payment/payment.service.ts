@@ -22,7 +22,12 @@ export class PaymentService {
             const paymentIntent = await this.stripe.paymentIntents.create({
                 amount: args.amount,
                 currency: "usd",
-                payment_method_types: ["card"],
+                payment_method_types: ["card", "apple_pay", "google_pay", "link"],
+                payment_method_options: {
+                    link: {
+                        persistent_token: "optional",
+                    },
+                },
                 metadata: {},
             });
             const payment = this.paymentRepository.create({
